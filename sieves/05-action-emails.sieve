@@ -4,6 +4,8 @@ require ["fileinto", "imap4flags", "vnd.proton.expire"];
 # short-circuit these from other sieves and centralize all
 # security events.
 
+# TODO: Check that subject doesn't start with re: or fwd:
+
 # Common subjects relevant to security events
 if header :contains "subject" [
     "security alert", "security notification", "login", "sign-on",
