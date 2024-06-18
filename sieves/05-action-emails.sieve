@@ -17,7 +17,7 @@ if header :contains "subject" [
     "security alert", "security notification", "login", "sign-on",
     "sign-in", "sign in", "sign on", "email address", "email change",
     "password", "account alert", "account activity", "account security",
-    "verify", "verification",
+    "verify", "verification", "magic link", "magic login", "magic sign-in",
     "confirm your email", "link to log in", "log-in link", "login link",
     "sign-in link", "signin link", "click here to login",
     "click here to sign in", "continue signing in", "continue logging in"
@@ -34,7 +34,8 @@ if header :contains "subject" [
 
     # Flag as an action email at this point. But we may take further
     # action based on a more specific subject.
-    fileinto "Action Emails";
+    fileinto "Autoresponse";  # label
+    fileinto "Action Emails";  # label
 
     #
     if header :contains "subject" [
@@ -45,7 +46,7 @@ if header :contains "subject" [
         # Emails that are about things coming up in the future, such as
         # appointments, bookings, or reservations, should be kept for a
         # longer period of time.
-        expire "day" "7";
+        expire "day" "14";
     }
     else
     {
