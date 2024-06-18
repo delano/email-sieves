@@ -10,3 +10,5 @@ if header :list "from" ":addrbook:personal?label=Self"
     fileinto "96 hours";
     expire "hour" "96";
 }
+
+# TODO: Review for ideas https://www.reddit.com/r/ProtonMail/comments/xkypkp/golden_sieve/
