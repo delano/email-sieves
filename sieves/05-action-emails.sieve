@@ -23,16 +23,37 @@ if header :contains "subject" [
     "click here to sign in", "continue signing in", "continue logging in"
 ]
 {
+    # If the email is a reply or forward from a person, we don't want to
+    # file it as an action email. We treat it as a regular email and let
+    # the email through to further sieve processing.
     if anyof (header :matches "subject" "Re:*",
               header :matches "subject" "Fwd:*",
               header :matches "subject" "FYI:*") {
-        # If the subject is a reply, we don't want to file it
-        # as an action email. Treat it as a regular email; let
-        # the sieve chain continue.
         return;
     }
 
+    # Flag as an action email at this point. But we may take further
+    # action based on a more specific subject.
     fileinto "Action Emails";
-    expire "hour" "12";
+
+    #
+    if header :contains "subject" [
+        "your appointment", "your booking", "your reservation",
+        "reminder"
+    ]
+    {
+        # Emails that are about things coming up in the future, such as
+        # appointments, bookings, or reservations, should be kept for a
+        # longer period of time.
+        expire "day" "7";
+    }
+    else
+    {
+        # Emails that are part of a workflow, such as a password reset,
+        # only need to be kept for a shorter period of time.
+        expire "hour" "24";
+    }
+
+    # Action emails don't need any more processing.
     stop;
 }
