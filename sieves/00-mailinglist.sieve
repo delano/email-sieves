@@ -1,11 +1,18 @@
-require ["fileinto", "imap4flags"];
+require ["fileinto", "imap4flags", "vnd.proton.expire"];
 
-
-# If "list-unsubscribe" header present, flag for easy manual review
-# MailingList is a label, NOT a folder
-if exists "list-unsubscribe"
+# Enhanced check for mailing list messages
+# Checks for "List-Unsubscribe", "List-Id", "List-Post", and "Precedence" headers
+if anyof (
+    exists "list-unsubscribe",
+    exists "list-id",
+    exists "list-post",
+    header :contains "precedence" ["list", "bulk", "junk"])
 {
     fileinto "MailingList";
+    expire "day" "365";
+
+    # Optionally, add a flag for manual review
+    addflag "\\Flagged";
 }
 
-# do NOT stop executing, allow other sieves to continue processing
+# Continue executing other sieve scripts
