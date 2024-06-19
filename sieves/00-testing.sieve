@@ -9,7 +9,6 @@ if header :list "from" ":addrbook:personal?label=Self"
 {
     fileinto "Activity Stream";  # folder
     fileinto "VIP";  # label
-    expire "minute" "22";
 }
 
 # TODO: Review for ideas https://www.reddit.com/r/ProtonMail/comments/xkypkp/golden_sieve/
