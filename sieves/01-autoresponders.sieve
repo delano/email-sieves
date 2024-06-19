@@ -15,29 +15,33 @@ if allof (environment :matches "vnd.proton.spam-threshold" "*", spamtest :value 
     return;
 }
 
+if allof (
 
-if anyof (header :list "to" ":addrbook:myself",
-          header :list "to" ":addrbook:personal?label=Self") {
+    # Check if the message is sent to me or a personal address.
+    anyof (
+        header :list "to" ":addrbook:myself",
+        header :list "to" ":addrbook:personal?label=Self"
+    ),
 
-
-    if allof (
-
+    # Check for common autoreply headers.
+    anyof (
         header "x-auto-response-suppress" ["DR", "OOF", "AutoReply"],
-        header "precedence" ["auto_reply"],  # not "bulk" or "list"
-        header "auto-submitted" ["auto-replied"],  # not "auto-generated"
+        header "precedence" ["auto_reply"],         # not "bulk" or "list"
+        header "auto-submitted" ["auto-replied"]    # not "auto-generated"
+    ),
 
-        # Check for common autoreply indicators in the Subject header.
-        header :comparator "i;unicode-casemap" :matches "Subject" [
-            "out of office", "vacation", "on vacation", "on leave", "away from the office",
-            "out of the office", "away from my desk",
+    # Check for common autoreply indicators in the Subject header.
+    header :comparator "i;unicode-casemap" :matches "Subject" [
+        "out of office", "vacation", "on vacation", "on leave", "away from the office",
+        "out of the office", "away from my desk",
 
-            # Other languages
-            "fuera de la oficina"
-        ] )
-    {
-        fileinto "Autoresponse";  # label
-        fileinto "FYI"; # label
-        expire "day" "7";
-        stop;
-    }
+        # Other languages
+        "fuera de la oficina"
+    ]
+)
+{
+    fileinto "Autoresponse";  # label
+    fileinto "FYI"; # label
+    expire "day" "7";
+    stop;
 }
