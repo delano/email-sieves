@@ -8,10 +8,12 @@ if anyof (
     exists "list-post",
     header :contains "precedence" ["list", "bulk", "junk"])
 {
-    fileinto "MailingList";
+    fileinto "Activity Stream";  # folder
+    fileinto "MailingList";  # label
     expire "day" "365";
 
     # Optionally, add a flag for manual review
+    # TODO: Does this do anything in protonmail?
     addflag "\\Flagged";
 }
 

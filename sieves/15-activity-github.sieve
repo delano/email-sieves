@@ -12,7 +12,7 @@ require ["fileinto", "imap4flags", "vnd.proton.expire", "extlists"];
 #
 if address :matches "from" "notifications@github.com"
 {
-    fileinto "Activity"; # folder
+    fileinto "Activity Stream"; # folder
     fileinto "Github";   # label
     expire "day" "4";
     stop;
@@ -22,7 +22,7 @@ if address :matches "from" "notifications@github.com"
 #
 if address :matches "from" "noreply@github.com"
 {
-    fileinto "Activity"; # folder
+    fileinto "Activity Stream"; # folder
     fileinto "Github";   # label
     expire "day" "7";
     stop;

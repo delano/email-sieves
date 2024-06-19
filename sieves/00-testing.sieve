@@ -7,8 +7,9 @@ require ["fileinto", "extlists", "vnd.proton.expire"];
 # but I prefer to test with external addresses.
 if header :list "from" ":addrbook:personal?label=Self"
 {
-    fileinto "96 hours";
-    expire "hour" "96";
+    fileinto "Activity Stream";  # folder
+    fileinto "VIP";  # label
+    expire "minute" "22";
 }
 
 # TODO: Review for ideas https://www.reddit.com/r/ProtonMail/comments/xkypkp/golden_sieve/
