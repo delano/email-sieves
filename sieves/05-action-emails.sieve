@@ -32,6 +32,7 @@ if header :contains "subject" [
     "sign-in", "sign in", "sign-in link", "signin link", "sign on",
     "confirm your email", "confirm your account", "confirm your identity",
     "password reset", "password recovery", "password change",
+    "password setup", "password creation",
     "account alert", "account activity", "account security",
     "verification", "verify your",
     "magic link", "magic login", "magic sign-in",
@@ -66,14 +67,14 @@ if header :contains "subject" [
         "reminder"
     ]
     {
-        expire "day" "14";
+        expire "day" "30";
     }
 
     # Emails that are part of a workflow, such as a password reset,
     # only need to be kept for a shorter period of time.
     else
     {
-        expire "hour" "24";
+        expire "day" "90";
     }
 
     # Action emails don't need any more processing.
