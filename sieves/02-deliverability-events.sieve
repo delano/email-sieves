@@ -29,7 +29,8 @@ if allof (
 
     # Check for common autoreply headers.
     anyof (
-        address :matches "from" "MAILER-DAEMON@eu-central-1.amazonses.com"
+        header :list "from" ":addrbook:personal?label=smtp-servers"
+        #address :matches "from" "MAILER-DAEMON@eu-central-1.amazonses.com"
     )
 )
 {
