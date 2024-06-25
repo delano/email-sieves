@@ -29,22 +29,8 @@ if allof (
 
     # Check for common autoreply headers.
     anyof (
-        header "x-auto-response-suppress" ["DR", "OOF", "AutoReply"],
-        header "precedence" ["bulk", "auto_reply"],
-        header "auto-submitted" ["auto-generated", "auto-replied"]
-    ),
-
-    # Check for common autoreply indicators in the Subject header.
-    header :comparator "i;unicode-casemap" :matches "Subject" [
-        "Undeliverable", "Undelivered", "Delivery Status", "Auto reply",
-        "Automatic response", "complaint about message from", "Comcast Abuse Report",
-        "Delivery Status Notification", "Rejected", "Returned mail", "Bounced",
-        "Your message couldn't be delivered", "Mail delivery failed",
-        "Mail delivery system", "Mail delivery subsystem", "Mail delivery failure",
-
-        # Other languages
-        "Automatische Antwort", "Erro de entrega", "Automatisch antwoord"
-    ]
+        address :matches "from" "MAILER-DAEMON@eu-central-1.amazonses.com"
+    )
 )
 {
     fileinto "Autoresponse";  # label
@@ -57,14 +43,31 @@ if allof (
 
 /**
 
+## POTENTIAL KEYWORDS
+#
+# NOTE: Not to be used for accept/reject. Only labelling etc.
+#
+# Check for common autoreply indicators in the Subject header.
+#
+#     header :comparator "i;unicode-casemap" :matches "Subject" [
+#         "Undeliverable", "Undelivered", "Delivery Status", "Auto reply",
+#         "Automatic response", "complaint about message from", "Comcast Abuse Report",
+#         "Delivery Status Notification", "Rejected", "Returned mail", "Bounced",
+#         "Your message couldn't be delivered", "Mail delivery failed",
+#         "Mail delivery system", "Mail delivery subsystem", "Mail delivery failure",
+#
+#         # Other languages
+#         "Automatische Antwort", "Erro de entrega", "Automatisch antwoord"
+#     ]
+
 ## ALTERNATIVE COMPARATORS
-
-    # Check for the Auto-Submitted header.
-    #header :comparator "i;unicode-casemap" :is "Auto-Submitted" "auto-replied",
-
-    # Check Precedence header
-    #header :comparator "i;unicode-casemap" :is "Precedence" "auto_reply",
-
+#
+#    # Check for the Auto-Submitted header.
+#    #header :comparator "i;unicode-casemap" :is "Auto-Submitted" "auto-replied",
+#
+#    # Check Precedence header
+#    #header :comparator "i;unicode-casemap" :is "Precedence" "auto_reply",
+#
 ## NOTES ABOUT HEADERS
 
 ## Llama-70b (groq):
