@@ -11,4 +11,8 @@ if header :list "from" ":addrbook:personal?label=Self"
     fileinto "VIP";  # label
 }
 
+if header :is "Return-Path" "<>" {
+    fileinto "Sievey Nicks";  # June 25
+}
+
 # TODO: Review for ideas https://www.reddit.com/r/ProtonMail/comments/xkypkp/golden_sieve/
