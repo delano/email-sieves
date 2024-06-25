@@ -48,8 +48,8 @@ if allof (
 )
 {
     fileinto "Autoresponse";  # label
-    fileinto "Send Issues"; # label
-    expire "day" "30";
+    fileinto "Deliverability Events"; # label
+    expire "day" "90";
     stop;
 }
 
