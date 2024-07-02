@@ -9,8 +9,6 @@ require ["include", "environment", "variables", "relational", "comparator-i;asci
 # header, the Auto-Submitted header, and common autoreply indicators in
 # the Subject header.
 
-# TODO: How to store the confidence level of the autoreply detection?
-
 # Prevent processing of messages that meet the spam threshold.
 if allof (environment :matches "vnd.proton.spam-threshold" "*", spamtest :value "ge" :comparator "i;ascii-numeric" "${1}")
 {
@@ -27,15 +25,17 @@ if allof (
         header :list "to" ":addrbook:personal?label=Self"
     ),
 
-    # Check for common autoreply headers.
+    # Check whether coming from one an SMTP servers associated with our account.
     anyof (
         header :list "from" ":addrbook:personal?label=smtp-servers"
         #address :matches "from" "MAILER-DAEMON@eu-central-1.amazonses.com"
     )
 )
 {
-    fileinto "Autoresponse";  # label
-    fileinto "Deliverability Events"; # label
+    fileinto "Service Events/OPS"; # folder
+    fileinto "Deliverability"; # label
+    fileinto "Not-a-human";  # label
+
     expire "day" "90";
     stop;
 }

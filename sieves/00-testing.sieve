@@ -5,14 +5,10 @@ require ["fileinto", "extlists", "vnd.proton.expire"];
 # Add your personal e-mail addresses to this group.
 # You can alternatively use ":addrbook:myself"
 # but I prefer to test with external addresses.
-if header :list "from" ":addrbook:personal?label=Self"
-{
-    fileinto "Activity Stream";  # folder
-    fileinto "VIP";  # label
-}
-
-if header :is "Return-Path" "<>" {
-    fileinto "Sievey Nicks";  # June 25
-}
+#if header :list "from" ":addrbook:personal?label=Self"
+#{
+#    fileinto "Activity Stream";  # folder
+#    fileinto "VIP";  # label
+#}
 
 # TODO: Review for ideas https://www.reddit.com/r/ProtonMail/comments/xkypkp/golden_sieve/

@@ -52,7 +52,7 @@ if header :contains "subject" [
 
     # Flag as an action email at this point. But we may take further
     # action based on a more specific subject.
-    fileinto "Autoresponse";  # label
+    fileinto "Not-a-human";  # label
     fileinto "Action Emails";  # label
 
     #
@@ -67,14 +67,14 @@ if header :contains "subject" [
         "reminder"
     ]
     {
-        expire "day" "30";
+        expire "day" "90";
     }
 
     # Emails that are part of a workflow, such as a password reset,
     # only need to be kept for a shorter period of time.
     else
     {
-        expire "day" "90";
+        expire "day" "14";
     }
 
     # Action emails don't need any more processing.

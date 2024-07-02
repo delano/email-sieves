@@ -38,6 +38,7 @@ Contributions are accepted.
   - NOTE - ensure NO personaly identifiable information is pasted into this tool.
   - Pro Tip - this app is not aware of the "vnd.proton.expire" package. Remove it when testing with this app.
 - When adding the sieve to ProtonMail, basic linting is performed server-side.
+- [Syntax checker for mail sieves (supports proton-specific extensions)](https://github.com/dburkart/check-sieve)
 
 ## Deployment
 

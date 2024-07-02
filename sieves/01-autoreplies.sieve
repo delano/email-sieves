@@ -10,6 +10,8 @@ require ["include", "environment", "variables", "relational", "comparator-i;asci
 
 # TODO: How to store the confidence level of the autoreply detection?
 
+# TODO: Any way to match up an incoming email with a recenly sent email?
+
 # Prevent processing of messages that meet the spam threshold.
 if allof (environment :matches "vnd.proton.spam-threshold" "*", spamtest :value "ge" :comparator "i;ascii-numeric" "${1}") {
     return;
@@ -17,7 +19,9 @@ if allof (environment :matches "vnd.proton.spam-threshold" "*", spamtest :value 
 
 if allof (
 
-    # Check if the message is sent to me or a personal address.
+    # Check if the message is sent to me directly at one of my personal
+    # addresses. This is important because autoreplies are typically
+    # sent to the sender of the original message.
     anyof (
         header :list "to" ":addrbook:myself",
         header :list "to" ":addrbook:personal?label=Self"
@@ -28,20 +32,20 @@ if allof (
         header "x-auto-response-suppress" ["DR", "OOF", "AutoReply"],
         header "precedence" ["auto_reply"],         # not "bulk" or "list"
         header "auto-submitted" ["auto-replied"]    # not "auto-generated"
-    ),
+    )
 
-    # Check for common autoreply indicators in the Subject header.
-    header :comparator "i;unicode-casemap" :matches "Subject" [
-        "out of office", "vacation", "on vacation", "on leave", "away from the office",
-        "out of the office", "away from my desk",
-
-        # Other languages
-        "fuera de la oficina"
-    ]
+    ## Check for common autoreply indicators in the Subject header.
+    #header :comparator "i;unicode-casemap" :matches "Subject" [
+    #    "out of office", "vacation", "on vacation", "on leave", "away from the office",
+    #    "out of the office", "away from my desk",
+    #
+    #    # Other languages
+    #    "fuera de la oficina"
+    #]
 )
 {
-    fileinto "Autoresponse";  # label
-    fileinto "FYI"; # label
+    fileinto "Activity Stream"; # folder
+    fileinto "Not-a-human";  # label
     expire "day" "7";
     stop;
 }

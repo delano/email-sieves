@@ -14,7 +14,7 @@ if address :matches "from" "notifications@github.com"
 {
     fileinto "Activity Stream"; # folder
     fileinto "Github";   # label
-    expire "day" "4";
+    expire "day" "7";
     stop;
 }
 
@@ -24,6 +24,9 @@ if address :matches "from" "noreply@github.com"
 {
     fileinto "Activity Stream"; # folder
     fileinto "Github";   # label
-    expire "day" "7";
+
+    # Leave time to make sure they're seen (e.g. if not coding actively, I
+    # may not check as often).
+    expire "day" "30";
     stop;
 }

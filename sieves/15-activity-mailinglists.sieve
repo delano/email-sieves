@@ -6,11 +6,12 @@ if anyof (
     exists "list-unsubscribe",
     exists "list-id",
     exists "list-post",
-    header :contains "precedence" ["list", "bulk", "junk"])
+    header :contains "precedence" ["list"])  # used to include "bulk", "junk"
 {
     fileinto "Activity Stream";  # folder
     fileinto "MailingList";  # label
-    expire "day" "365";
+
+    expire "day" "30";
 
     # Optionally, add a flag for manual review
     # TODO: Does this do anything in protonmail?
