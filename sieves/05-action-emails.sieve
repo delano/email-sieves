@@ -52,6 +52,7 @@ if header :contains "subject" [
 
     # Flag as an action email at this point. But we may take further
     # action based on a more specific subject.
+    fileinto "Activity Stream";  # folder
     fileinto "Not-a-human";  # label
     fileinto "Action Emails";  # label
 
