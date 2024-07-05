@@ -30,7 +30,7 @@ if allof (
     # Check for common autoreply headers.
     anyof (
         header "x-auto-response-suppress" ["DR", "OOF", "AutoReply"],
-        header "precedence" ["auto_reply"],         # not "bulk" or "list"
+        header "precedence" ["auto_reply", "bulk"],    # not "junk" or "list"
         header "auto-submitted" ["auto-replied"]    # not "auto-generated"
     )
 
