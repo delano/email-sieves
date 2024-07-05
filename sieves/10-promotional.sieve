@@ -29,11 +29,11 @@ if allof (
 
 
 
-if anyof (header :comparator "i;unicode-casemap" :contains "Subject" ["free months", "cancel anytime", "promo", "Winter sale", "Spring sale", "for Spring", "Summer sale", "for Summer", "on Now", "Limited time", "for Winter", "for Fall", "Fall sale", "for Autumn", "Autumn sale", "for free", "Costco Wholesale", "Costco.ca", "VMWare", "Unstoppable domains", "Unstoppable", "Bed Bath", "Bed, Bath", "Costco Warehouse", "Bed Bath", "Bed, Bath", "Bath & Beyond"], address :all :comparator "i;unicode-casemap" :contains "From" ["CostcoNews@digital.costco.ca", "info@gravitypope.com", "promotion.bedbathandbeyond.com", "Bed Bath", "Bath & Beyond", "email@promotion.bedbathandbeyond.com", "Kevin from Synthesia", "rewards@c.pxsmail.com"]) {
+if anyof (header :comparator "i;unicode-casemap" :contains "Subject" ["free months", "cancel anytime", "promo", "Winter sale", "Spring sale", "for Spring", "Summer sale", "for Summer", "on Now", "Limited time", "for Winter", "for Fall", "Fall sale", "for Autumn", "Autumn sale", "for free", "Costco Wholesale", "Costco.ca", "VMWare", "Unstoppable domains", "Unstoppable", "Bed Bath", "Bed, Bath", "Costco Warehouse", "Bed Bath", "Bed, Bath", "Bath & Beyond", "Overstock"], address :all :comparator "i;unicode-casemap" :contains "From" ["CostcoNews@digital.costco.ca", "info@gravitypope.com", "promotion.bedbathandbeyond.com", "Bed Bath", "Bath & Beyond", "email@promotion.bedbathandbeyond.com", "Kevin from Synthesia", "rewards@c.pxsmail.com", "email@promotion.overstock.com"]) {
     fileinto "Junk";
     fileinto "Promotional";
 
-    expire "day" "7";
+    expire "day" "3";
 
     addflag "\\Seen";
     stop;
