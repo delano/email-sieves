@@ -15,6 +15,5 @@ if allof (address :all :comparator "i;unicode-casemap" :is "From" ["auto-confirm
     fileinto "Service Events";
     fileinto "Service";
 
-    expire "day" "90";
-
+    expire "day" "14";
 }
