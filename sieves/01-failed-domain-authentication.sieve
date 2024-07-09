@@ -11,11 +11,10 @@ require ["fileinto", "imap4flags", "vnd.proton.expire", "regex"];
 
 # Relies on the following labels/folders existing in your mailbox setup:
 #
-# Junk
-# Auth-Issue-DMARC
-# Auth-Issue-SPF
-# Auth-Issue-ARC
-# Auth-Issue-DKIM
+# -DMARC
+# -SPF
+# +ARC
+# -DKIM
 #
 # Many legitimate services still fail domain checks. Don't even quarantine
 # matching messages to the Junk folder yet. Don't expire either yet. Flag
@@ -27,25 +26,18 @@ if allof (environment :matches "vnd.proton.spam-threshold" "*", spamtest :value 
     return;
 }
 
-
 # DMARC (Domain-based Message Authentication, Reporting, and Conformance) check
 # Failure indicates the email failed alignment with SPF or DKIM policies set by the sender's domain
 if header :regex "Authentication-Results" "mail\.protonmail\.ch;.*dmarc=(fail|none).*" {
-    fileinto "Inbox"; # temporary, to get out of junk folder
-    fileinto "Auth-Issue-DMARC"; # Apply DMARC issue label
-    setflag "\\Flagged"; # Flag the message
-
-    unexpire; # temporary since I accidentally set an S-load of non-junk emails to expire in 7 days.
+    #fileinto "Inbox"; # temporary, to get out of junk folder
+    fileinto "-DMARC"; # Apply DMARC issue label
 }
 
 # SPF (Sender Policy Framework) check
 # Failure suggests the sending server is not authorized to send mail for the stated domain
 if header :regex "Authentication-Results" "mail\.protonmail\.ch;.*spf=(fail|none).*" {
-    fileinto "Inbox"; # Move to Junk folder
-    fileinto "Auth-Issue-SPF"; # Apply SPF issue label
-    #setflag "\\Flagged"; # Flag the message
-
-    unexpire;
+    #fileinto "Inbox"; # Move to Junk folder
+    fileinto "-SPF"; # Apply SPF issue label
 }
 
 # NOTE: This catches at least an order of magnitude more (otherwise valid)
@@ -55,19 +47,16 @@ if header :regex "Authentication-Results" "mail\.protonmail\.ch;.*spf=(fail|none
 # ARC (Authenticated Received Chain) check
 # Failure or absence may indicate issues with email forwarding or mailing lists
 if header :regex "Authentication-Results" "mail\.protonmail\.ch;.*arc=(fail|none).*" {
-    fileinto "Inbox"; # Move to Junk folder
-    fileinto "Auth-Issue-ARC"; # Apply ARC issue label
-    #setflag "\\Flagged"; # Flag the message
-
-    unexpire;
+    # Do nothing.
+    # So many failures... (Summer 2024)
+}
+if header :regex "Authentication-Results" "mail\.protonmail\.ch;.*arc=(pass).*" {
+    fileinto "+ARC";
 }
 
 # DKIM (DomainKeys Identified Mail) check
 # Failure suggests the email content may have been altered in transit or the sender is not authorized
 if header :regex "Authentication-Results" "mail\.protonmail\.ch;.*dkim=(fail|none).*" {
-    fileinto "Inbox"; # folder
-    fileinto "Auth-Issue-DKIM"; # label
-    #setflag "\\Flagged";
-
-    unexpire;
+    #fileinto "Inbox"; # folder
+    fileinto "-DKIM"; # label
 }
