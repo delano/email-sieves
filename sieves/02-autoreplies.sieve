@@ -47,5 +47,5 @@ if allof (
     fileinto "Activity Stream"; # folder
     fileinto "Not-a-human";  # label
     expire "day" "7";
-    stop;
+    return;
 }
