@@ -21,6 +21,8 @@ Contributions are accepted.
 - Use subject header parsing with caution, but don't be afraid. It's an immensely powerful routing mechanism.
 - IMAP uses [modified UTF-7](https://tools.ietf.org/html/rfc5228#section-2.1). Ensure folder and label names are in the [US-ASCII](https://www.charset.org/charsets/us-ascii) range.
 - You can only test so much before going to "prod". Ensure sieves handling ~critical emails explicitly check for _and_ resolve unintended states, such as expirations.
+- Btw, ProtonMail doesn't support the full capabilities of sieve. So using any guide on the web most likely won't work. They have a pretty good guide on their own, though: https://protonmail.com/support/knowledge-base/sieve/
+
 
 ## Useful Links
 
@@ -36,6 +38,7 @@ Contributions are accepted.
   - NOTE - ensure NO personaly identifiable information is pasted into this tool.
   - Pro Tip - this app is not aware of the "vnd.proton.expire" package. Remove it when testing with this app.
 - When adding the sieve to ProtonMail, basic linting is performed server-side.
+- [Syntax checker for mail sieves (supports proton-specific extensions)](https://github.com/dburkart/check-sieve)
 
 ## Deployment
 
