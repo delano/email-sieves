@@ -14,5 +14,7 @@ spamtest :value "ge" :comparator "i;ascii-numeric" "${1}")
 if header :is "Return-Path" "<>" {
     fileinto "Not-a-human";  # label
 
-    return; # No need to process further here.
+    # No need to process further here.
 }
+
+# Continue with other filters
